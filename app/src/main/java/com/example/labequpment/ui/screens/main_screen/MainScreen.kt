@@ -41,7 +41,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreenBody(list: List<EquipmentDetails>, modifier: Modifier = Modifier) {
+fun MainScreenBody(
+    list: List<EquipmentDetails>,
+    modifier: Modifier = Modifier
+
+) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -58,7 +62,6 @@ fun MainScreenBody(list: List<EquipmentDetails>, modifier: Modifier = Modifier) 
                 .padding(8.dp)
         )
         LazyColumn(modifier = Modifier) {
-
             item {
                 list.forEach {
                     EquipmentCard(

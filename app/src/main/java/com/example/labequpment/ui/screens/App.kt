@@ -67,6 +67,5 @@ fun TopLabEquipmentAppBar() {
             }
         },
         modifier = Modifier
-
     )
 }

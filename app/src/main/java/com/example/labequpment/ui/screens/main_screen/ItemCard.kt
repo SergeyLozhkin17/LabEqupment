@@ -40,7 +40,6 @@ import com.example.labequpment.ui.theme.LabEquipmentTheme
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modifier) {
-
     val expanded = remember {
         mutableStateOf(false)
     }
@@ -56,106 +55,14 @@ fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modif
             }
             .animateContentSize(animationSpec = spring(dampingRatio = 0.8f)),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = equipmentDetails.name,
-                    style = MaterialTheme.typography.labelLarge,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Text(
-                    text = "Заводской номер: ${equipmentDetails.factoryNumber}",
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = "Дата поверки: ",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Text(
-                        text = equipmentDetails.getLastVerificationDate(),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = "Дата следующей поверки: ",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = equipmentDetails.getNextVerificationDate(),
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.2f)
-                    .align(Alignment.CenterVertically),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "дней до поверки",
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.labelSmall
-                )
-                Text(
-                    text = "${equipmentDetails.getRemainingDays()}",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 26.sp,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-        }
-        Row(
+        CardItemBody(
+            expanded = expanded.value,
+            equipmentDetails = equipmentDetails,
+            onEditItemClick = {},
+            onDeleteItemClick = {},
             modifier = modifier
-                .fillMaxWidth()
-                .padding(8.dp), horizontalArrangement = Arrangement.SpaceEvenly
         )
-        {
-            if (expanded.value)
-                TabRow(selectedTabIndex = 2, containerColor = Color.Black.copy(alpha = 0.0f), modifier = Modifier.padding(8.dp)) {
-                    Tab(selected = false, onClick = { /*TODO*/ }) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
-                            Text(text = "Изменить")
-                        }
-                    }
-                    Tab(selected = false, onClick = { /*TODO*/ }) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Icon(imageVector = Icons.Filled.Delete, contentDescription = null)
-                            Text(text = "Удалить")
-                        }
-                    }
-                }
-
-        }
     }
-}
-
-private enum class TabRowElements {
-    Edit, Delete
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
