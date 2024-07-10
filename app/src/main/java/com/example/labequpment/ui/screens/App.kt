@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.example.labequpment.ui.screens.add_eqipment_screen.AddEquipmentScreen
 import com.example.labequpment.ui.screens.main_screen.AddItemFloatButton
 import com.example.labequpment.ui.screens.main_screen.MainScreen
 import com.example.labequpment.ui.theme.LabEquipmentTheme
@@ -46,7 +47,7 @@ fun LabEquipmentApp() {
             floatingActionButtonPosition = FabPosition.Center,
             modifier = Modifier
         ) {
-            MainScreen(modifier = Modifier.padding(it))
+            MainScreen()
         }
     }
 }
@@ -54,6 +55,7 @@ fun LabEquipmentApp() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLabEquipmentAppBar() {
+
     TopAppBar(
         title = { Text(text = "Lab Equipment App") },
         navigationIcon = {

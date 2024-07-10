@@ -44,7 +44,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
 fun MainScreenBody(
     list: List<EquipmentDetails>,
     modifier: Modifier = Modifier
-
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -72,7 +71,6 @@ fun MainScreenBody(
             }
         }
     }
-
 }
 
 

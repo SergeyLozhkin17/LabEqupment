@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.labequpment.data.EquipmentDetails
+import com.example.labequpment.data.MockDb
 import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -69,14 +70,8 @@ fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modif
 @Preview
 @Composable
 fun PreviewEquipmentCard() {
-    val testEq = EquipmentDetails(
-        id = 1,
-        name = "ДАГ-500",
-        factoryNumber = "2B110A24",
-        dateOfLastVerification = 1719881150119L,
-        verificationPeriodInMonth = 12
-    )
+
     LabEquipmentTheme {
-        EquipmentCard(equipmentDetails = testEq)
+        EquipmentCard(equipmentDetails = MockDb.list[0])
     }
 }

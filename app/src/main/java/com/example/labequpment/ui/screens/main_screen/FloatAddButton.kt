@@ -15,9 +15,12 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun AddItemFloatButton(modifier: Modifier = Modifier) {
+fun AddItemFloatButton(
+    onClickAction: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = onClickAction,
         elevation = FloatingActionButtonDefaults.elevation(5.dp),
         shape = MaterialTheme.shapes.extraLarge,
         containerColor = MaterialTheme.colorScheme.primary,
