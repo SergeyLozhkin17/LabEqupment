@@ -22,12 +22,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.labequpment.data.EquipmentDetails
+import com.example.labequpment.data.Equipment
 
 
 @Composable
 fun CardItemBody(
-    equipmentDetails: EquipmentDetails,
+    equipment: Equipment,
     expanded: Boolean,
     onEditItemClick: () -> Unit,
     onDeleteItemClick: () -> Unit,
@@ -42,14 +42,14 @@ fun CardItemBody(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = equipmentDetails.name,
+                text = equipment.name,
                 style = MaterialTheme.typography.labelLarge,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
-                text = "Заводской номер: ${equipmentDetails.factoryNumber}",
+                text = "Заводской номер: ${equipment.factoryNumber}",
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -60,7 +60,7 @@ fun CardItemBody(
                     style = MaterialTheme.typography.bodySmall,
                 )
                 Text(
-                    text = equipmentDetails.getLastVerificationDate(),
+                    text = equipment.getLastVerificationDate(),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
@@ -70,7 +70,7 @@ fun CardItemBody(
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = equipmentDetails.getNextVerificationDate(),
+                    text = equipment.getNextVerificationDate(),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -92,7 +92,7 @@ fun CardItemBody(
                 style = MaterialTheme.typography.labelSmall
             )
             Text(
-                text = "${equipmentDetails.getRemainingDays()}",
+                text = "${equipment.getRemainingDays()}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp,
                 style = MaterialTheme.typography.bodySmall

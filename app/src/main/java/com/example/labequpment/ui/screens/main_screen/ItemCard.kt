@@ -15,13 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.labequpment.data.EquipmentDetails
+import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.MockDb
 import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modifier) {
+fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
     val expanded = remember {
         mutableStateOf(false)
     }
@@ -39,7 +39,7 @@ fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modif
     ) {
         CardItemBody(
             expanded = expanded.value,
-            equipmentDetails = equipmentDetails,
+            equipment = equipment,
             onEditItemClick = {},
             onDeleteItemClick = {},
             modifier = modifier
@@ -53,6 +53,6 @@ fun EquipmentCard(equipmentDetails: EquipmentDetails, modifier: Modifier = Modif
 fun PreviewEquipmentCard() {
 
     LabEquipmentTheme {
-        EquipmentCard(equipmentDetails = MockDb.list[0])
+        EquipmentCard(equipment = MockDb.list[0])
     }
 }

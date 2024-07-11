@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.labequpment.data.EquipmentDetails
+import com.example.labequpment.data.Equipment
 import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -40,7 +40,7 @@ fun MainScreen(
 fun MainScreenBody(
     mainScreenUiState: MainScreenUiState,
     onSearchValueChange: (String) -> Unit,
-    list: List<EquipmentDetails>,
+    list: List<Equipment>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,7 +62,7 @@ fun MainScreenBody(
             item {
                 list.forEach {
                     EquipmentCard(
-                        equipmentDetails = it,
+                        equipment = it,
                         modifier = Modifier.padding(8.dp)
                     )
                 }

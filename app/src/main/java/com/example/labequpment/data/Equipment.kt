@@ -12,13 +12,16 @@ import java.util.GregorianCalendar
 
 
 
-data class EquipmentDetails(
-    val id : Int = 0,
-    val verificationPeriodInMonth: Int = 12,
-    val factoryNumber: String = "",
-    val name: String = "",
-    val dateOfLastVerification: Long = 1L
+class Equipment(
+    val id : Int,
+    val verificationPeriodInMonth: Int,
+    val factoryNumber: String ,
+    val name: String ,
+    val dateOfLastVerification: Long
 ) {
+    override fun toString(): String {
+        return "имя: $name, заводской номер: $factoryNumber, период поверки: $verificationPeriodInMonth "
+    }
 
     @SuppressLint("SimpleDateFormat")
     private val sdf = SimpleDateFormat("dd MMMM yyyy")
