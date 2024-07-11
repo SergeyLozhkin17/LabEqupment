@@ -1,14 +1,12 @@
 package com.example.labequpment.ui.screens.add_eqipment_screen
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -23,22 +21,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.labequpment.data.EquipmentDetails
 import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @Preview(showSystemUi = true)
 @Composable
-fun AddEquipmentScreen(modifier: Modifier = Modifier) {
+fun AddEquipmentScreen(
+    modifier: Modifier = Modifier,
+    addItemScreenViewModel: AddItemScreenViewModel = viewModel()
+) {
     LabEquipmentTheme {
         LazyColumn(modifier = modifier) {
             item {
-                AddEquipmentScreenBody(modifier = Modifier.padding(8.dp))
+                AddEquipmentScreenBody(
+                    equipmentDetails = addItemScreenViewModel.entryItemUiState.equipmentDetails,
+                    onItemValueChange = addItemScreenViewModel::updateEntryItemUIState
+                )
             }
         }
     }
 }
 
 @Composable
-fun AddEquipmentScreenBody(modifier: Modifier = Modifier) {
+private fun AddEquipmentScreenBody(
+    equipmentDetails: EquipmentDetails,
+    onItemValueChange: (EquipmentDetails) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceAround,
@@ -46,31 +56,41 @@ fun AddEquipmentScreenBody(modifier: Modifier = Modifier) {
     ) {
         Column(modifier = Modifier) {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = equipmentDetails.name,
+                onValueChange = { onItemValueChange(equipmentDetails.copy(name = it)) },
                 placeholder = { Text(text = "Название прибора") },
                 shape = MaterialTheme.shapes.medium,
                 modifier = modifier.fillMaxWidth()
             )
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = equipmentDetails.factoryNumber,
+                onValueChange = { onItemValueChange(equipmentDetails.copy(factoryNumber = it)) },
                 placeholder = { Text(text = "Заводской №") },
                 shape = MaterialTheme.shapes.medium,
                 modifier = modifier.fillMaxWidth()
             )
-            VerificationDatePicker(modifier = modifier)
+            VerificationDatePicker(
+                equipmentDetails = equipmentDetails,
+                onItemValueChange = onItemValueChange
+            )
             Text(text = "Выберите период поверки в годах: ")
-            PeriodSlider(modifier = modifier)
+            PeriodSlider(
+                equipmentDetails = equipmentDetails,
+                onItemValueChange = onItemValueChange
+            )
             Row(modifier = modifier.fillMaxWidth()) {
-                Button(onClick = { /*TODO*/ }, modifier = modifier
-                    .weight(1f)
-                    .height(48.dp)) {
+                Button(
+                    onClick = { /*TODO*/ }, modifier = modifier
+                        .weight(1f)
+                        .height(48.dp)
+                ) {
                     Text(text = "Отмена")
                 }
-                Button(onClick = { /*TODO*/ }, modifier = modifier
-                    .weight(1f)
-                    .height(48.dp)) {
+                Button(
+                    onClick = { /*TODO*/ }, modifier = modifier
+                        .weight(1f)
+                        .height(48.dp)
+                ) {
                     Text(text = "Сохранить")
                 }
             }
@@ -80,16 +100,23 @@ fun AddEquipmentScreenBody(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PeriodSlider(modifier: Modifier = Modifier) {
+fun PeriodSlider(
+    equipmentDetails: EquipmentDetails,
+    onItemValueChange: (EquipmentDetails) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val sliderPosition = remember {
         mutableStateOf(12f)
     }
     val context = LocalContext.current
     Slider(
         value = sliderPosition.value,
-        onValueChange = { sliderPosition.value = it },
+        onValueChange = {
+            sliderPosition.value = it
+            onItemValueChange(equipmentDetails.copy(verificationPeriodInMonth = it.toInt()))
+        },
         steps = 1,
         valueRange = 12f..36f
     )
-    Toast.makeText(context, (sliderPosition.value / 12).toInt().toString(), Toast.LENGTH_SHORT).show()
+    Log.d("item", equipmentDetails.toString())
 }

@@ -9,12 +9,17 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.labequpment.data.EquipmentDetails
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VerificationDatePicker(modifier: Modifier = Modifier) {
+fun VerificationDatePicker(
+    equipmentDetails: EquipmentDetails,
+    onItemValueChange: (EquipmentDetails) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val state = rememberDatePickerState(initialDisplayMode = DisplayMode.Input)
     DatePicker(state = state, modifier = modifier)
-    Log.d("DP", "${state.selectedDateMillis}")
+    onItemValueChange(equipmentDetails.copy(dateOfLastVerification = state.selectedDateMillis ?: 0))
+    Log.d("DP", "${equipmentDetails.dateOfLastVerification}")
 }

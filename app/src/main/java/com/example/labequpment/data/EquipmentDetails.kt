@@ -12,17 +12,17 @@ import java.util.GregorianCalendar
 
 
 
-class EquipmentDetails(
-    val id : Int,
-    val verificationPeriodInMonth: Int,
-    val factoryNumber: String,
-    val name: String,
-    val dateOfLastVerification: Long
+data class EquipmentDetails(
+    val id : Int = 0,
+    val verificationPeriodInMonth: Int = 12,
+    val factoryNumber: String = "",
+    val name: String = "",
+    val dateOfLastVerification: Long = 1L
 ) {
 
     @SuppressLint("SimpleDateFormat")
     private val sdf = SimpleDateFormat("dd MMMM yyyy")
-    private val date = Date(dateOfLastVerification)
+    private val date = Date(dateOfLastVerification ?: throw Exception("Неверная дата"))
     private val calendar = GregorianCalendar.getInstance()
     fun getLastVerificationDate() : String {
         return sdf.format(date)
@@ -30,7 +30,7 @@ class EquipmentDetails(
 
     fun getNextVerificationDate() : String {
         calendar.clear()
-        calendar.time = Date(dateOfLastVerification)
+        calendar.time = Date(dateOfLastVerification ?: throw Exception("Неверная дата"))
         calendar.add(Calendar.MONTH, verificationPeriodInMonth)
         return sdf.format(Date(calendar.timeInMillis))
     }
