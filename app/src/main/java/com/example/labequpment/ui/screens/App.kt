@@ -47,7 +47,7 @@ fun LabEquipmentApp() {
             floatingActionButtonPosition = FabPosition.Center,
             modifier = Modifier
         ) {
-            MainScreen()
+            MainScreen(modifier = Modifier.padding(it))
         }
     }
 }
