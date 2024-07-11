@@ -66,14 +66,14 @@ private fun AddEquipmentScreenBody(
             OutlinedTextField(
                 value = equipmentDetails.name,
                 onValueChange = { onItemValueChange(equipmentDetails.copy(name = it)) },
-                placeholder = { Text(text = "Название прибора") },
+                label = { Text(text = "Название прибора") },
                 shape = MaterialTheme.shapes.medium,
                 modifier = modifier.fillMaxWidth()
             )
             OutlinedTextField(
                 value = equipmentDetails.factoryNumber,
                 onValueChange = { onItemValueChange(equipmentDetails.copy(factoryNumber = it)) },
-                placeholder = { Text(text = "Заводской №") },
+                label = { Text(text = "Заводской №") },
                 shape = MaterialTheme.shapes.medium,
                 modifier = modifier.fillMaxWidth()
             )
@@ -81,7 +81,6 @@ private fun AddEquipmentScreenBody(
                 equipmentDetails = equipmentDetails,
                 onItemValueChange = onItemValueChange
             )
-            Text(text = "Выберите период поверки в годах: ")
             PeriodSlider(
                 equipmentDetails = equipmentDetails,
                 onItemValueChange = onItemValueChange,
@@ -90,6 +89,7 @@ private fun AddEquipmentScreenBody(
             Row(modifier = modifier.fillMaxWidth()) {
                 Button(
                     onClick = {
+                        onCancelButtonClick()
                         MutableDB.db.forEach {
                             Log.d("item", it.toString())
                         }
@@ -106,7 +106,7 @@ private fun AddEquipmentScreenBody(
                     },
                     modifier = modifier
                         .weight(1f)
-                        .height(48.dp)
+                        .height(48.dp).fillMaxWidth()
                 ) {
                     Text(text = "Сохранить")
                 }
@@ -122,15 +122,19 @@ fun PeriodSlider(
     onItemValueChange: (EquipmentDetails) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Text(text = "1")
-        Text(text = "2")
-        Text(text = "3")
+    Column {
+        Text(text = "Выберите период поверки в годах: ", modifier = modifier)
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "1")
+            Text(text = "2")
+            Text(text = "3")
+        }
     }
+
     Slider(
         value = equipmentDetails.verificationPeriodInMonth.toFloat(),
         onValueChange = {

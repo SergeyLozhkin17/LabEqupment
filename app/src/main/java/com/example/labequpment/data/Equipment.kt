@@ -20,7 +20,7 @@ class Equipment(
     val dateOfLastVerification: Long
 ) {
     override fun toString(): String {
-        return "имя: $name, заводской номер: $factoryNumber, период поверки: $verificationPeriodInMonth "
+        return "имя: $name, заводской номер: $factoryNumber, период поверки: $verificationPeriodInMonth, дата: ${sdf.format(Date(dateOfLastVerification))}"
     }
 
     @SuppressLint("SimpleDateFormat")
