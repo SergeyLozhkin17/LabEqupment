@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.MockDb
-import com.example.labequpment.data.MutableDB
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,16 +18,12 @@ class MainScreenViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _mainScreenUiState.value = MainScreenUiState(itemsList = MutableDB.db)
+            _mainScreenUiState.value = MainScreenUiState(itemsList = MockDb.list)
         }
-    }
-
-    fun updateMainUiState(input: String) {
-        _mainScreenUiState.value = MainScreenUiState().copy(searchInput = input)
     }
 }
 
 data class MainScreenUiState(
     val searchInput: String = "",
-    val itemsList: List<Equipment> = MutableDB.db
+    val itemsList: List<Equipment> = listOf()
 )

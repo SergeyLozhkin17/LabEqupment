@@ -3,6 +3,7 @@ package com.example.labequpment.data
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.room.Entity
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -11,6 +12,7 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 
 
+@Entity(tableName = "equipments")
 class Equipment(
     val id : Int,
     val verificationPeriodInMonth: Int,
