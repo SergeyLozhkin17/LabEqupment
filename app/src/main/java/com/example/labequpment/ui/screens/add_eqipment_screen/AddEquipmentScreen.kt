@@ -12,11 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -33,26 +37,45 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.MutableDB
+import com.example.labequpment.ui.screens.navigation.NavigationDestination
+
+object AddEquipmentScreen : NavigationDestination {
+    override val route: String
+        get() = "Add screen"
+    override val title: String
+        get() = "Add equipment"
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true)
 @Composable
 fun AddEquipmentScreen(
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     addItemScreenViewModel: AddItemScreenViewModel = viewModel()
 ) {
     Log.d("MyTag", "1. Equipment screen recompose")
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text(text = "Entry Item") })
+            CenterAlignedTopAppBar(
+                title = { Text(text = "Entry Item") },
+                navigationIcon = {
+                    IconButton(onClick = { navigateBack() }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                }
+            )
         },
         modifier = modifier
     ) { innerPadding ->
         AddEquipmentScreenBody(
             entryItemUiState = addItemScreenViewModel.entryItemUiState,
             onItemValueChange = addItemScreenViewModel::updateEntryItemUIState,
-            onCancelButtonClick = { },
-            onSaveButtonClick = { addItemScreenViewModel.saveItem(it) },
+            onCancelButtonClick = navigateBack,
+            onSaveButtonClick = {
+                addItemScreenViewModel.saveItem(it)
+                navigateBack()
+            },
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
@@ -112,7 +135,6 @@ private fun AddEquipmentScreenBody(
             }
             Button(
                 onClick = {
-
                     onSaveButtonClick(entryItemUiState.equipmentDetails.toEquipment())
                 },
                 modifier = Modifier
