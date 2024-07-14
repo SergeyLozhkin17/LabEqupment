@@ -21,9 +21,11 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.navigation.compose.rememberNavController
 import com.example.labequpment.ui.screens.add_eqipment_screen.AddEquipmentScreen
 import com.example.labequpment.ui.screens.main_screen.AddItemFloatButton
 import com.example.labequpment.ui.screens.main_screen.MainScreen
+import com.example.labequpment.ui.screens.navigation.LabEquipmentNaVHost
 import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +34,7 @@ import com.example.labequpment.ui.theme.LabEquipmentTheme
 @Composable
 fun LabEquipmentApp() {
     LabEquipmentTheme {
-        MainScreen()
+        LabEquipmentNaVHost(navController = rememberNavController())
     }
 }
 
