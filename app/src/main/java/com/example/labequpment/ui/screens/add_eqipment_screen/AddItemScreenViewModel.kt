@@ -13,11 +13,9 @@ import com.example.labequpment.data.MutableDB
 class AddItemScreenViewModel : ViewModel() {
     var entryItemUiState by mutableStateOf(EntryItemUiState())
         private set
-    val sliderState by mutableFloatStateOf(12f)
     fun updateEntryItemUIState(equipmentDetails: EquipmentDetails) {
         entryItemUiState = EntryItemUiState(equipmentDetails = equipmentDetails)
     }
-
     fun saveItem(equipment: Equipment) {
         MutableDB.db.add(equipment)
     }
@@ -32,7 +30,7 @@ data class EquipmentDetails(
     val verificationPeriodInMonth: Int = 12,
     val factoryNumber: String = "",
     val name: String = "",
-    val dateOfLastVerification: Long = 1L
+    val dateOfLastVerification: Long? = null
 )
 
 fun EquipmentDetails.toEquipment() = Equipment(

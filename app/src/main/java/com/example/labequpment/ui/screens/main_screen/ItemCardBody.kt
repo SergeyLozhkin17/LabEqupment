@@ -1,5 +1,8 @@
 package com.example.labequpment.ui.screens.main_screen
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.labequpment.data.Equipment
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CardItemBody(
     equipment: Equipment,
@@ -33,6 +37,7 @@ fun CardItemBody(
     onDeleteItemClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    Log.d("MyTag", "ItemCardBody recompose")
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -101,8 +106,7 @@ fun CardItemBody(
     }
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp), horizontalArrangement = Arrangement.SpaceEvenly
+            .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly
     )
     {
         if (expanded)

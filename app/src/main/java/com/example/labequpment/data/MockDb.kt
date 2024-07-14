@@ -10,77 +10,56 @@ object MockDb {
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 2,
             name = "Спектрофотометр",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1697739150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 3,
             name = "Метеоскоп",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1709881150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 4,
             name = "ДАГ-500",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1719881150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 5,
             name = "Спектрофотометр",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1697739150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 6,
             name = "Метеоскоп",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1709881150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 7,
             name = "ДАГ-500",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1719881150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
+            id = 8,
             name = "Спектрофотометр",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1697739150119L,
             verificationPeriodInMonth = 12
         ),
         Equipment(
-            id = 1,
-            name = "Метеоскоп",
-            factoryNumber = "2B110A24",
-            dateOfLastVerification = 1709881150119L,
-            verificationPeriodInMonth = 12
-        ),
-        Equipment(
-            id = 1,
-            name = "ДАГ-500",
-            factoryNumber = "2B110A24",
-            dateOfLastVerification = 1719881150119L,
-            verificationPeriodInMonth = 12
-        ),
-        Equipment(
-            id = 1,
-            name = "Спектрофотометр",
-            factoryNumber = "2B110A24",
-            dateOfLastVerification = 1697739150119L,
-            verificationPeriodInMonth = 12
-        ),
-        Equipment(
-            id = 1,
+            id = 9,
             name = "Метеоскоп",
             factoryNumber = "2B110A24",
             dateOfLastVerification = 1709881150119L,

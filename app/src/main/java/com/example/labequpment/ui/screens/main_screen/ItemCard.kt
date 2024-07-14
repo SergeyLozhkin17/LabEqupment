@@ -1,6 +1,7 @@
 package com.example.labequpment.ui.screens.main_screen
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.spring
@@ -25,6 +26,7 @@ fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
     val expanded = remember {
         mutableStateOf(false)
     }
+    Log.d("MyTag", "ItemCard recompose")
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp
@@ -35,7 +37,6 @@ fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
             .clickable {
                 expanded.value = !expanded.value
             }
-            .animateContentSize(animationSpec = spring(dampingRatio = 0.8f)),
     ) {
         CardItemBody(
             expanded = expanded.value,
