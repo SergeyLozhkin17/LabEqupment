@@ -11,6 +11,10 @@ class OfflineEquipmentRepository(private val equipmentDao: EquipmentDao) : Equip
         return equipmentDao.getEquipment(id = id)
     }
 
+    override suspend fun insertItem(equipment: Equipment) {
+        equipmentDao.insert(equipment = equipment)
+    }
+
     override suspend fun deleteItem(equipment: Equipment) {
         equipmentDao.delete(equipment)
     }

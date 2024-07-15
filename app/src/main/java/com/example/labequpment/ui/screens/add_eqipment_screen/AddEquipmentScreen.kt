@@ -28,6 +28,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -37,7 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.MutableDB
+import com.example.labequpment.ui.screens.ViewModelsProvider
 import com.example.labequpment.ui.screens.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 
 object AddEquipmentScreen : NavigationDestination {
     override val route: String
@@ -52,8 +55,9 @@ object AddEquipmentScreen : NavigationDestination {
 fun AddEquipmentScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    addItemScreenViewModel: AddItemScreenViewModel = viewModel()
+    addItemScreenViewModel: AddItemScreenViewModel = viewModel(factory = ViewModelsProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Log.d("MyTag", "1. Equipment screen recompose")
     Scaffold(
         topBar = {
@@ -73,7 +77,9 @@ fun AddEquipmentScreen(
             onItemValueChange = addItemScreenViewModel::updateEntryItemUIState,
             onCancelButtonClick = navigateBack,
             onSaveButtonClick = {
-                addItemScreenViewModel.saveItem(it)
+                coroutineScope.launch {
+                    addItemScreenViewModel.addItem()
+                }
                 navigateBack()
             },
             modifier = Modifier
@@ -96,7 +102,7 @@ private fun AddEquipmentScreenBody(
     entryItemUiState: EntryItemUiState,
     onItemValueChange: (EquipmentDetails) -> Unit,
     onCancelButtonClick: () -> Unit,
-    onSaveButtonClick: (Equipment) -> Unit,
+    onSaveButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Log.d("MyTag", "2. body recompose")
@@ -135,7 +141,7 @@ private fun AddEquipmentScreenBody(
             }
             Button(
                 onClick = {
-                    onSaveButtonClick(entryItemUiState.equipmentDetails.toEquipment())
+                    onSaveButtonClick()
                 },
                 modifier = Modifier
                     .weight(1f)

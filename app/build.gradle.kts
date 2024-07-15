@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+
 }
 
 android {
@@ -72,7 +74,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
 
-
+    // To use Kotlin annotation processing tool (kapt)
+    ksp(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
 
@@ -81,7 +84,6 @@ dependencies {
 
     // optional - RxJava3 support for Room
     implementation(libs.androidx.room.rxjava3)
-
     // optional - Guava support for Room, including Optional and ListenableFuture
     implementation(libs.androidx.room.guava)
 

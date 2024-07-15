@@ -8,6 +8,7 @@ interface EquipmentRepository {
 
     fun getItemStream(id: Int) : Flow<Equipment?>
 
+    suspend fun insertItem(equipment: Equipment)
     suspend fun deleteItem(equipment: Equipment)
 
     suspend fun updateItem(equipment: Equipment)

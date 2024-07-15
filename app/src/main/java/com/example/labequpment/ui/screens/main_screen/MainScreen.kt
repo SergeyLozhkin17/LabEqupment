@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,8 +40,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.labequpment.data.Equipment
+import com.example.labequpment.ui.screens.ViewModelsProvider
 import com.example.labequpment.ui.screens.navigation.NavigationDestination
 import com.example.labequpment.ui.theme.LabEquipmentTheme
+import kotlinx.coroutines.launch
 
 object MainScreenDestination : NavigationDestination {
     override val route: String = "Home Screen"
@@ -53,17 +56,18 @@ object MainScreenDestination : NavigationDestination {
 fun MainScreen(
     navigateToAddScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    mainScreenViewModel: MainScreenViewModel = viewModel()
+    mainScreenViewModel: MainScreenViewModel = viewModel(factory = ViewModelsProvider.Factory)
 ) {
     val mainScreenUiState by mainScreenViewModel.mainScreenUiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val coroutineScope = rememberCoroutineScope()
     Log.d("MyTag", "MainScreen recompose")
     Scaffold(
         modifier = modifier,
         topBar = {
             EquipmentSearchBar(
                 mainScreenUiState = mainScreenUiState,
-                onSearchValueChange = mainScreenViewModel::updateMainUiState
+                onSearchValueChange = {}
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -77,6 +81,13 @@ fun MainScreen(
         }
     ) {
         MainScreenBody(
+            onEditItemClick = {},
+            onDeleteItemClick = {
+                coroutineScope.launch {
+                    mainScreenViewModel.deleteItem(it)
+
+                }
+            },
             itemsList = mainScreenUiState.itemsList,
             onItemClick = { /*TODO*/ },
             modifier = modifier
@@ -136,6 +147,8 @@ fun EquipmentSearchBar(
 @Composable
 private fun MainScreenBody(
     itemsList: List<Equipment>,
+    onEditItemClick: () -> Unit,
+    onDeleteItemClick: (Equipment) -> Unit,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -151,7 +164,12 @@ private fun MainScreenBody(
                 textAlign = TextAlign.Center
             )
         }
-        EquipmentList(itemsList = itemsList, onItemClick = onItemClick)
+        EquipmentList(
+            itemsList = itemsList,
+            onItemClick = onItemClick,
+            onDeleteItemClick = onDeleteItemClick,
+            onEditItemClick = onEditItemClick
+        )
     }
 }
 
@@ -160,12 +178,16 @@ private fun MainScreenBody(
 private fun EquipmentList(
     itemsList: List<Equipment>,
     onItemClick: () -> Unit,
+    onEditItemClick: () -> Unit,
+    onDeleteItemClick: (Equipment) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Log.d("MyTag", "ItemScreenList recompose")
     LazyColumn(modifier = modifier) {
         items(items = itemsList, key = { it.id }) { equipment ->
             EquipmentCard(
+                onEditItemClick = onEditItemClick,
+                onDeleteItemClick = onDeleteItemClick,
                 equipment = equipment,
                 modifier = Modifier
                     .padding(8.dp)

@@ -34,7 +34,7 @@ fun CardItemBody(
     equipment: Equipment,
     expanded: Boolean,
     onEditItemClick: () -> Unit,
-    onDeleteItemClick: () -> Unit,
+    onDeleteItemClick: (Equipment) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Log.d("MyTag", "ItemCardBody recompose")
@@ -124,7 +124,7 @@ fun CardItemBody(
                         Text(text = "Изменить")
                     }
                 }
-                Tab(selected = false, onClick = onDeleteItemClick) {
+                Tab(selected = false, onClick = { onDeleteItemClick(equipment) }) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         modifier = Modifier.fillMaxWidth()

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Equipment::class], version = 1, exportSchema = false)
 abstract class EquipmentDataBase : RoomDatabase() {
 
-    abstract fun equipmentDao() : EquipmentDao
+    abstract fun getEquipmentDao() : EquipmentDao
 
 
     companion object {

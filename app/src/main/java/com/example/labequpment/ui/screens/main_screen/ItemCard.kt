@@ -22,7 +22,12 @@ import com.example.labequpment.ui.theme.LabEquipmentTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
+fun EquipmentCard(
+    equipment: Equipment,
+    onEditItemClick: () -> Unit,
+    onDeleteItemClick: (Equipment) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val expanded = remember {
         mutableStateOf(false)
     }
@@ -41,8 +46,8 @@ fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
         CardItemBody(
             expanded = expanded.value,
             equipment = equipment,
-            onEditItemClick = {},
-            onDeleteItemClick = {},
+            onEditItemClick = onEditItemClick,
+            onDeleteItemClick = onDeleteItemClick,
             modifier = modifier
         )
     }
@@ -52,8 +57,7 @@ fun EquipmentCard(equipment: Equipment, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun PreviewEquipmentCard() {
-
     LabEquipmentTheme {
-        EquipmentCard(equipment = MockDb.list[0])
+        EquipmentCard(equipment = MockDb.list[0], onDeleteItemClick = {}, onEditItemClick = {})
     }
 }

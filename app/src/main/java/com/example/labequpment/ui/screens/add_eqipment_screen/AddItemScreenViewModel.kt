@@ -8,9 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.labequpment.data.Equipment
+import com.example.labequpment.data.EquipmentRepository
 import com.example.labequpment.data.MutableDB
 
-class AddItemScreenViewModel : ViewModel() {
+class AddItemScreenViewModel(private val equipmentRepository: EquipmentRepository) : ViewModel() {
     var entryItemUiState by mutableStateOf(EntryItemUiState())
         private set
     fun updateEntryItemUIState(equipmentDetails: EquipmentDetails) {
@@ -18,6 +19,9 @@ class AddItemScreenViewModel : ViewModel() {
     }
     fun saveItem(equipment: Equipment) {
         MutableDB.db.add(equipment)
+    }
+    suspend fun addItem() {
+        equipmentRepository.insertItem(entryItemUiState.equipmentDetails.toEquipment())
     }
 }
 

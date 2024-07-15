@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -12,8 +13,13 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 
 
+@SuppressLint("SimpleDateFormat")
+private val sdf = SimpleDateFormat("dd MMMM yyyy")
+private val calendar = GregorianCalendar.getInstance()
+
 @Entity(tableName = "equipments")
-class Equipment(
+data class Equipment(
+    @PrimaryKey(autoGenerate = true)
     val id : Int,
     val verificationPeriodInMonth: Int,
     val factoryNumber: String ,
@@ -24,11 +30,8 @@ class Equipment(
         return "имя: $name, заводской номер: $factoryNumber, период поверки: $verificationPeriodInMonth, дата: ${sdf.format(Date(dateOfLastVerification ?: 0))}"
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private val sdf = SimpleDateFormat("dd MMMM yyyy")
-    private val date = Date(dateOfLastVerification ?: throw Exception("Неверная дата"))
-    private val calendar = GregorianCalendar.getInstance()
     fun getLastVerificationDate() : String {
+        val date = Date(dateOfLastVerification ?: throw Exception("Неверная дата"))
         return sdf.format(date)
     }
 
