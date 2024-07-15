@@ -1,25 +1,34 @@
 package com.example.labequpment.ui.screens.add_eqipment_screen
 
-import androidx.compose.runtime.FloatState
-import androidx.compose.runtime.MutableState
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.EquipmentRepository
-import com.example.labequpment.data.MutableDB
+import java.util.Locale
 
 class AddItemScreenViewModel(private val equipmentRepository: EquipmentRepository) : ViewModel() {
     var entryItemUiState by mutableStateOf(EntryItemUiState())
         private set
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun updateEntryItemUIState(equipmentDetails: EquipmentDetails) {
-        entryItemUiState = EntryItemUiState(equipmentDetails = equipmentDetails)
+        entryItemUiState =
+            EntryItemUiState(equipmentDetails = equipmentDetails, validateInput = validateInput())
     }
-    fun saveItem(equipment: Equipment) {
-        MutableDB.db.add(equipment)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun validateInput(): Boolean {
+        return entryItemUiState.equipmentDetails.name.isNotBlank()
+                && entryItemUiState.equipmentDetails.factoryNumber.isNotBlank()
+                && entryItemUiState.equipmentDetails.dateOfLastVerification != null
     }
+
     suspend fun addItem() {
         equipmentRepository.insertItem(entryItemUiState.equipmentDetails.toEquipment())
     }
@@ -27,10 +36,11 @@ class AddItemScreenViewModel(private val equipmentRepository: EquipmentRepositor
 
 data class EntryItemUiState(
     val equipmentDetails: EquipmentDetails = EquipmentDetails(),
+    val validateInput: Boolean = false
 )
 
 data class EquipmentDetails(
-    val id : Int = 0,
+    val id: Int = 0,
     val verificationPeriodInMonth: Int = 12,
     val factoryNumber: String = "",
     val name: String = "",
@@ -40,7 +50,7 @@ data class EquipmentDetails(
 fun EquipmentDetails.toEquipment() = Equipment(
     id = this.id,
     name = this.name,
-    factoryNumber = this.factoryNumber,
+    factoryNumber = this.factoryNumber.uppercase(Locale.ROOT),
     verificationPeriodInMonth = this.verificationPeriodInMonth,
     dateOfLastVerification = this.dateOfLastVerification
 )

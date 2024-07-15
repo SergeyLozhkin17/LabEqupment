@@ -1,6 +1,8 @@
 package com.example.labequpment.ui.screens.add_eqipment_screen
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,11 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.labequpment.data.Equipment
-import com.example.labequpment.data.MutableDB
 import com.example.labequpment.ui.screens.ViewModelsProvider
 import com.example.labequpment.ui.screens.navigation.NavigationDestination
 import kotlinx.coroutines.launch
@@ -50,6 +49,7 @@ object AddEquipmentScreen : NavigationDestination {
 
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEquipmentScreen(
@@ -128,9 +128,6 @@ private fun AddEquipmentScreenBody(
             Button(
                 onClick = {
                     onCancelButtonClick()
-                    MutableDB.db.forEach {
-                        Log.d("item", it.toString())
-                    }
                 },
                 modifier = Modifier
                     .weight(1f)
@@ -143,6 +140,7 @@ private fun AddEquipmentScreenBody(
                 onClick = {
                     onSaveButtonClick()
                 },
+                enabled = entryItemUiState.validateInput,
                 modifier = Modifier
                     .weight(1f)
                     .height(65.dp)
@@ -167,14 +165,16 @@ private fun UserInputForm(
             onValueChange = { onItemValueChange(equipmentDetails.copy(name = it)) },
             label = { Text(text = "Название прибора") },
             shape = MaterialTheme.shapes.medium,
+            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = equipmentDetails.factoryNumber,
+            value = equipmentDetails.factoryNumber.uppercase(),
             onValueChange = { onItemValueChange(equipmentDetails.copy(factoryNumber = it)) },
             label = { Text(text = "Заводской №") },
             shape = MaterialTheme.shapes.medium,
+            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
             modifier = Modifier.fillMaxWidth()
         )

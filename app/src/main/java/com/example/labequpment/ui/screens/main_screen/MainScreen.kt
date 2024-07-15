@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,12 +16,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -58,7 +66,7 @@ fun MainScreen(
     modifier: Modifier = Modifier,
     mainScreenViewModel: MainScreenViewModel = viewModel(factory = ViewModelsProvider.Factory)
 ) {
-    val mainScreenUiState by mainScreenViewModel.mainScreenUiState.collectAsState()
+    val mainScreenUiState by mainScreenViewModel.mainScreenUiState
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
     Log.d("MyTag", "MainScreen recompose")
@@ -67,7 +75,9 @@ fun MainScreen(
         topBar = {
             EquipmentSearchBar(
                 mainScreenUiState = mainScreenUiState,
-                onSearchValueChange = {}
+                onSearchValueChange = {},
+                sortItemsMaxToMin = mainScreenViewModel::sortFromMinToMax,
+                sortItemsMixToMax = mainScreenViewModel::sortFromMaxToMin,
             )
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -102,11 +112,17 @@ fun MainScreen(
 fun EquipmentSearchBar(
     mainScreenUiState: MainScreenUiState,
     onSearchValueChange: (String) -> Unit,
+    sortItemsMaxToMin: () -> Unit,
+    sortItemsMixToMax: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember {
         mutableStateOf(false)
     }
+    var sortstate by remember {
+        mutableStateOf(false)
+    }
+
     SearchBar(
         query = mainScreenUiState.searchInput,
         onQueryChange = onSearchValueChange,
@@ -119,7 +135,22 @@ fun EquipmentSearchBar(
             )
         },
         trailingIcon = {
-            Icon(imageVector = Icons.Default.Menu, contentDescription = null)
+            IconButton(onClick = {
+                if (sortstate) {
+                    sortItemsMixToMax()
+                    sortstate = !sortstate
+                } else {
+                    sortItemsMaxToMin()
+                    sortstate = !sortstate
+                }
+            }) {
+                if (sortstate) {
+                    Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
+
+                } else {
+                    Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null)
+                }
+            }
         },
         onActiveChange = { expanded = it },
         placeholder = { Text(text = "Search bar") },
@@ -183,7 +214,7 @@ private fun EquipmentList(
     modifier: Modifier = Modifier
 ) {
     Log.d("MyTag", "ItemScreenList recompose")
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier.fillMaxHeight()) {
         items(items = itemsList, key = { it.id }) { equipment ->
             EquipmentCard(
                 onEditItemClick = onEditItemClick,
