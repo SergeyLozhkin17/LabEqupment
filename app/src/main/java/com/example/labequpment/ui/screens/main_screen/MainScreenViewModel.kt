@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.EquipmentRepository
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -23,6 +25,13 @@ class MainScreenViewModel(private val equipmentRepository: EquipmentRepository) 
         }
     }
 
+    fun getItem(id: Int) {
+        viewModelScope.launch {
+            val x =equipmentRepository.getItemStream(id).collect {
+                _mainScreenUiState.value = MainScreenUiState(itemsList = it)
+            }
+        }
+    }
     /*val mainScreenUiState = equipmentRepository.getAllEquipments().map {
         MainScreenUiState(itemsList = it)
     }.stateIn(
@@ -50,7 +59,6 @@ class MainScreenViewModel(private val equipmentRepository: EquipmentRepository) 
             }
         }
     }
-
 
     suspend fun deleteItem(equipment: Equipment) {
         equipmentRepository.deleteItem(equipment)

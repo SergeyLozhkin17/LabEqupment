@@ -13,7 +13,7 @@ interface EquipmentDao {
     @Query("SELECT * FROM equipments ORDER BY name ASC")
     fun getAllEquipment() : Flow<List<Equipment>>
     @Query("SELECT * from equipments WHERE id = :id")
-    fun getEquipment(id: Int): Flow<Equipment>
+    fun getEquipment(id: Int): Flow<List<Equipment>>
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(equipment: Equipment)
     @Update

@@ -7,7 +7,7 @@ class OfflineEquipmentRepository(private val equipmentDao: EquipmentDao) : Equip
         return equipmentDao.getAllEquipment()
     }
 
-    override fun getItemStream(id: Int): Flow<Equipment?> {
+    override fun getItemStream(id: Int): Flow<List<Equipment>> {
         return equipmentDao.getEquipment(id = id)
     }
 
