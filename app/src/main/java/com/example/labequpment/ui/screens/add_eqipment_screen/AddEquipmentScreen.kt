@@ -73,7 +73,7 @@ fun AddEquipmentScreen(
         modifier = modifier
     ) { innerPadding ->
         AddEquipmentScreenBody(
-            entryItemUiState = addItemScreenViewModel.entryItemUiState,
+            itemUiState = addItemScreenViewModel.itemUiState,
             onItemValueChange = addItemScreenViewModel::updateEntryItemUIState,
             onCancelButtonClick = navigateBack,
             onSaveButtonClick = {
@@ -98,8 +98,8 @@ fun AddEquipmentScreen(
 }
 
 @Composable
-private fun AddEquipmentScreenBody(
-    entryItemUiState: EntryItemUiState,
+fun AddEquipmentScreenBody(
+    itemUiState: ItemUiState,
     onItemValueChange: (EquipmentDetails) -> Unit,
     onCancelButtonClick: () -> Unit,
     onSaveButtonClick: () -> Unit,
@@ -112,15 +112,15 @@ private fun AddEquipmentScreenBody(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         UserInputForm(
-            equipmentDetails = entryItemUiState.equipmentDetails,
+            equipmentDetails = itemUiState.equipmentDetails,
             onItemValueChange = onItemValueChange
         )
         VerificationDatePicker(
-            equipmentDetails = entryItemUiState.equipmentDetails,
+            equipmentDetails = itemUiState.equipmentDetails,
             onItemValueChange = onItemValueChange
         )
         PeriodSlider(
-            equipmentDetails = entryItemUiState.equipmentDetails,
+            equipmentDetails = itemUiState.equipmentDetails,
             onItemValueChange = onItemValueChange,
             label = "Выберите период поверки: "
         )
@@ -140,7 +140,7 @@ private fun AddEquipmentScreenBody(
                 onClick = {
                     onSaveButtonClick()
                 },
-                enabled = entryItemUiState.validateInput,
+                enabled = itemUiState.validateInput,
                 modifier = Modifier
                     .weight(1f)
                     .height(65.dp)

@@ -47,7 +47,7 @@ import com.example.labequpment.ui.theme.LabEquipmentTheme
 import kotlinx.coroutines.launch
 
 object MainScreenDestination : NavigationDestination {
-    override val route: String = "Home Screen"
+    override val route: String = "Main Screen"
     override val title: String = "Lab Equipment App"
 }
 
@@ -57,6 +57,7 @@ object MainScreenDestination : NavigationDestination {
 fun MainScreen(
     navigateToAddScreen: () -> Unit,
     modifier: Modifier = Modifier,
+    navigateToEditScreen : (Int) -> Unit,
     mainScreenViewModel: MainScreenViewModel = viewModel(factory = ViewModelsProvider.Factory)
 ) {
     val mainScreenUiState by mainScreenViewModel.mainScreenUiState
@@ -84,7 +85,7 @@ fun MainScreen(
         }
     ) {
         MainScreenBody(
-            onEditItemClick = {},
+            onEditItemClick = navigateToEditScreen,
             onDeleteItemClick = {
                 coroutineScope.launch {
                     mainScreenViewModel.deleteItem(it)
@@ -172,7 +173,7 @@ fun EquipmentSearchBar(
 @Composable
 private fun MainScreenBody(
     itemsList: List<Equipment>,
-    onEditItemClick: () -> Unit,
+    onEditItemClick: (Int) -> Unit,
     onDeleteItemClick: (Equipment) -> Unit,
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -203,7 +204,7 @@ private fun MainScreenBody(
 private fun EquipmentList(
     itemsList: List<Equipment>,
     onItemClick: () -> Unit,
-    onEditItemClick: () -> Unit,
+    onEditItemClick: (Int) -> Unit,
     onDeleteItemClick: (Equipment) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -211,7 +212,7 @@ private fun EquipmentList(
     LazyColumn(modifier = modifier.fillMaxHeight()) {
         items(items = itemsList, key = { it.id }) { equipment ->
             EquipmentCard(
-                onEditItemClick = onEditItemClick,
+                onEditItemClick = { onEditItemClick(equipment.id) },
                 onDeleteItemClick = onDeleteItemClick,
                 equipment = equipment,
                 modifier = Modifier
@@ -230,6 +231,6 @@ private fun EquipmentList(
 @Composable
 fun PreviewMainScreen() {
     LabEquipmentTheme {
-        MainScreen(navigateToAddScreen = {})
+        MainScreen(navigateToAddScreen = {}, navigateToEditScreen = {})
     }
 }

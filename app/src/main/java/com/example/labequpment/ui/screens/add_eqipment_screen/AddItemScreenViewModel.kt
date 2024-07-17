@@ -1,7 +1,6 @@
 package com.example.labequpment.ui.screens.add_eqipment_screen
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,29 +11,29 @@ import com.example.labequpment.data.EquipmentRepository
 import java.util.Locale
 
 class AddItemScreenViewModel(private val equipmentRepository: EquipmentRepository) : ViewModel() {
-    var entryItemUiState by mutableStateOf(EntryItemUiState())
+    var itemUiState by mutableStateOf(ItemUiState())
         private set
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateEntryItemUIState(equipmentDetails: EquipmentDetails) {
-        entryItemUiState =
-            EntryItemUiState(equipmentDetails = equipmentDetails, validateInput = validateInput())
+        itemUiState =
+            ItemUiState(equipmentDetails = equipmentDetails, validateInput = validateInput())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun validateInput(): Boolean {
-        return entryItemUiState.equipmentDetails.name.isNotBlank()
-                && entryItemUiState.equipmentDetails.factoryNumber.isNotBlank()
-                && entryItemUiState.equipmentDetails.dateOfLastVerification != null
+        return itemUiState.equipmentDetails.name.isNotBlank()
+                && itemUiState.equipmentDetails.factoryNumber.isNotBlank()
+                && itemUiState.equipmentDetails.dateOfLastVerification != null
     }
 
     suspend fun addItem() {
-        equipmentRepository.insertItem(entryItemUiState.equipmentDetails.toEquipment())
+        equipmentRepository.insertItem(itemUiState.equipmentDetails.toEquipment())
     }
 }
 
-data class EntryItemUiState(
+data class ItemUiState(
     val equipmentDetails: EquipmentDetails = EquipmentDetails(),
     val validateInput: Boolean = false
 )
@@ -55,10 +54,17 @@ fun EquipmentDetails.toEquipment() = Equipment(
     dateOfLastVerification = this.dateOfLastVerification
 )
 
-fun Equipment.toEquipmentDetails() = EquipmentDetails(
-    id = this.id,
-    name = this.name,
-    factoryNumber = this.factoryNumber,
-    verificationPeriodInMonth = this.verificationPeriodInMonth,
-    dateOfLastVerification = this.dateOfLastVerification
+fun Equipment.toItemUiState(validateInput: Boolean) = ItemUiState(
+    equipmentDetails = this.toEquipmentDetails(),
+    validateInput = validateInput
 )
+
+fun Equipment.toEquipmentDetails(): EquipmentDetails {
+    return EquipmentDetails(
+        id = this.id,
+        verificationPeriodInMonth = this.verificationPeriodInMonth,
+        factoryNumber = this.factoryNumber,
+        name = this.name,
+        dateOfLastVerification = this.dateOfLastVerification
+    )
+}

@@ -24,14 +24,6 @@ class MainScreenViewModel(private val equipmentRepository: EquipmentRepository) 
             }
         }
     }
-
-    fun getItem(id: Int) {
-        viewModelScope.launch {
-            val x =equipmentRepository.getItemStream(id).collect {
-                _mainScreenUiState.value = MainScreenUiState(itemsList = it)
-            }
-        }
-    }
     /*val mainScreenUiState = equipmentRepository.getAllEquipments().map {
         MainScreenUiState(itemsList = it)
     }.stateIn(
