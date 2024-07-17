@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labequpment.data.Equipment
 import com.example.labequpment.data.EquipmentRepository
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)

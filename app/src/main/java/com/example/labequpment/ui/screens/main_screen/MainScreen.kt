@@ -27,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +50,6 @@ object MainScreenDestination : NavigationDestination {
     override val title: String = "Lab Equipment App"
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
@@ -61,7 +59,7 @@ fun MainScreen(
     mainScreenViewModel: MainScreenViewModel = viewModel(factory = ViewModelsProvider.Factory)
 ) {
     val mainScreenUiState by mainScreenViewModel.mainScreenUiState
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    //val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
     Log.d("MyTag", "MainScreen recompose")
     Scaffold(

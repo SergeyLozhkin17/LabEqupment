@@ -10,7 +10,6 @@ import com.example.labequpment.data.EquipmentRepository
 import com.example.labequpment.ui.screens.add_eqipment_screen.EquipmentDetails
 import com.example.labequpment.ui.screens.add_eqipment_screen.ItemUiState
 import com.example.labequpment.ui.screens.add_eqipment_screen.toEquipment
-import com.example.labequpment.ui.screens.add_eqipment_screen.toEquipmentDetails
 import com.example.labequpment.ui.screens.add_eqipment_screen.toItemUiState
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first

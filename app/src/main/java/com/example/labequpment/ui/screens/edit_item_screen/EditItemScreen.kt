@@ -3,16 +3,13 @@ package com.example.labequpment.ui.screens.edit_item_screen
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -37,9 +34,9 @@ object EditItemScreenDestination : NavigationDestination {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun EditItemScreen(
+    modifier: Modifier = Modifier,
     navigateUp: () -> Unit,
     editItemScreenViewModel: EditItemScreenViewModel = viewModel(factory = ViewModelsProvider.Factory),
-    modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
     Scaffold(modifier = modifier) { innerPadding ->
